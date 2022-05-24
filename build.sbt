@@ -11,7 +11,7 @@ licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.
 homepage := Some(url("https://github.com/codingwell/scala-guice"))
 
 libraryDependencies ++= Seq(
-  "com.google.inject" % "guice" % "5.0.1",
+  "com.google.inject" % "guice" % "5.1.0",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 

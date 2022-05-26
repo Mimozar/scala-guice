@@ -1,4 +1,4 @@
-Scala extensions for Google Guice 5.0
+Scala extensions for Google Guice 5.1
 =====================================
 
 **Develop:** [![Build Status](https://travis-ci.org/codingwell/scala-guice.png?branch=develop)](https://travis-ci.org/codingwell/scala-guice)
@@ -14,18 +14,18 @@ We currently support Scala `2.11, 2.12, 2.13`
 <dependency>
     <groupId>net.codingwell</groupId>
     <artifactId>scala-guice_2.13</artifactId>
-    <version>5.0.2</version>
+    <version>5.1.0</version>
 </dependency>
 ```
 
 ##### sbt:
 ```scala
-"net.codingwell" %% "scala-guice" % "5.0.2"
+"net.codingwell" %% "scala-guice" % "5.1.0"
 ```
 
 ##### gradle:
 ```groovy
-'net.codingwell:scala-guice_2.13:5.0.2'
+'net.codingwell:scala-guice_2.13:5.1.0'
 ```
 
 ### Mixin

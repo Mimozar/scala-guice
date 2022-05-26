@@ -4,7 +4,7 @@ description := "Scala syntax for Guice"
 
 organization := "net.codingwell"
 
-version := "5.0.2"
+version := "5.1.0"
 
 licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
@@ -23,9 +23,9 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-collection-compat" % "
 
 autoAPIMappings := true
 
-scalaVersion := "2.13.6"
+scalaVersion := "2.13.8"
 
-crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.6")
+crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.8")
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
 

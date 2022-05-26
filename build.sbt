@@ -5,6 +5,7 @@ description := "Scala syntax for Guice"
 organization := "net.codingwell"
 
 version := "5.1.0"
+versionScheme := Some("pvp")
 
 licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 

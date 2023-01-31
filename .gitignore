@@ -11,3 +11,4 @@ repo/
 *.swp
 .idea*
 .DS_Store
+.bsp/

@@ -29,7 +29,7 @@ class TypeLiteralSpec extends AnyFunSpec with Matchers {
     class SomeImpl extends SomAbstract
   }
 
-  class Outer {
+  class OuterLocal {
     class Inner
     trait InnerTrait
   }
@@ -49,12 +49,12 @@ class TypeLiteralSpec extends AnyFunSpec with Matchers {
     }
 
     it("should create a type from a innerClass type") {
-      val outer = new Outer
+      val outer = new OuterLocal
       typeLiteral[outer.Inner] shouldEqual TypeLiteral.get(classOf[outer.Inner])
     }
 
     it("should create a type from a inner Trait type") {
-      val outer = new Outer
+      val outer = new OuterLocal
       typeLiteral[outer.InnerTrait] shouldEqual TypeLiteral.get(classOf[outer.InnerTrait])
     }
 

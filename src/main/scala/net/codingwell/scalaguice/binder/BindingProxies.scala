@@ -74,9 +74,9 @@ trait LinkedBindingBuilderProxy[T] extends LinkedBindingBuilder[T] with ScopedBi
 trait AnnotatedBindingBuilderProxy[T] extends AnnotatedBindingBuilder[T] with LinkedBindingBuilderProxy[T] {
   override def self: AnnotatedBindingBuilder[T]
 
-  def annotatedWith(annotation: JAnnotation) = newBuilder(self.annotatedWith(annotation))
-  def annotatedWith(annotationType: Class[_ <: JAnnotation]) = newBuilder(self.annotatedWith(annotationType))
-  def annotatedWithName(name: String) = annotatedWith(Names.named(name))
+  def annotatedWith(annotation: JAnnotation): ScalaLinkedBindingBuilder[T] = newBuilder(self.annotatedWith(annotation))
+  def annotatedWith(annotationType: Class[_ <: JAnnotation]): ScalaLinkedBindingBuilder[T] = newBuilder(self.annotatedWith(annotationType))
+  def annotatedWithName(name: String): ScalaLinkedBindingBuilder[T] = annotatedWith(Names.named(name))
 
   private[this] def newBuilder(underlying: LinkedBindingBuilder[T]) = new ScalaLinkedBindingBuilder[T] {
     val self = underlying

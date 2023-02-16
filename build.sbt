@@ -4,7 +4,7 @@ description := "Scala syntax for Guice"
 
 organization := "net.codingwell"
 
-version := "5.1.0"
+version := "5.2.0"
 versionScheme := Some("pvp")
 
 licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -13,28 +13,37 @@ homepage := Some(url("https://github.com/codingwell/scala-guice"))
 
 libraryDependencies ++= Seq(
   "com.google.inject" % "guice" % "5.1.0",
-  "org.scala-lang" % "scala-reflect" % scalaVersion.value
+  "org.scalatest" %% "scalatest" % "3.2.9" % "test",
+  "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile"
 )
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
-
-libraryDependencies += "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile"
-
-libraryDependencies += "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.2"
+libraryDependencies ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, n)) => Seq(
+      "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.2",
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    )
+    case _ => Seq.empty
+  }
+}
 
 autoAPIMappings := true
 
-scalaVersion := "2.13.8"
+//scalaVersion := "2.13.8"
 
-crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.8")
+val scala3 = "3.2.2"
+scalaVersion := scala3 // for IDE
+//crossScalaVersions := Seq(scala3)
+crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.8", scala3)
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
 
-Compile / unmanagedSourceDirectories += {
+Compile / unmanagedSourceDirectories ++= {
   val sourceDir = (Compile / sourceDirectory).value
   CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, n)) if n >= 13 => sourceDir / "scala-2.13+"
-    case _ => sourceDir / "scala-2.12-"
+    case Some((2, n)) if n >= 13 => Seq(sourceDir / "scala-2.13+")
+    case Some((3, _)) => Seq(sourceDir / "scala-2.13+")
+    case _ => Seq(sourceDir / "scala-2.12-")
   }
 }
 

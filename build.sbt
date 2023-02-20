@@ -29,21 +29,19 @@ libraryDependencies ++= {
 
 autoAPIMappings := true
 
-//scalaVersion := "2.13.8"
-
 val scala3 = "3.2.2"
-scalaVersion := scala3 // for IDE
-//crossScalaVersions := Seq(scala3)
+
+scalaVersion := scala3
 crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.8", scala3)
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
 
-Compile / unmanagedSourceDirectories ++= {
+Compile / unmanagedSourceDirectories += {
   val sourceDir = (Compile / sourceDirectory).value
   CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, n)) if n >= 13 => Seq(sourceDir / "scala-2.13+")
-    case Some((3, _)) => Seq(sourceDir / "scala-2.13+")
-    case _ => Seq(sourceDir / "scala-2.12-")
+    case Some((2, n)) if n >= 13 => sourceDir / "scala-2.13+"
+    case Some((3, _)) => sourceDir / "scala-2.13+"
+    case _ => sourceDir / "scala-2.12-"
   }
 }
 

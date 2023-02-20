@@ -16,8 +16,7 @@ private[scalaguice] object TypeConversions {
   }
 
   /*
-   * Macro implementation, where I'm doing something special with these -->
-   * and the others are handled with "best effort" translation.
+   * Macro implementation, where we handle these --> and the others are reported as compiler errors.
    * TypeRepr (from https://scala-lang.org/api/3.x/scala/quoted/Quotes$reflectModule.html)
 
   -->         -+- NamedType -+- TermRef
@@ -149,24 +148,36 @@ private[scalaguice] object TypeConversions {
         // These generally happen when you bind[Something.type]
         case ref: TermRef => toJavaType(ref)
 
-        // And then there's everything else that is possible, support through "best effort" translation
-        case x: ConstantType => bestEffort(x, "ConstantType")
-        case x: SuperType => bestEffort(x, "SuperType")
-        case x: Refinement => bestEffort(x, "Refinement")
-        case x: OrType => bestEffort(x, "OrType")
-        case x: MatchType => bestEffort(x, "MatchType")
-        case x: ParamRef => bestEffort(x, "ParamRef")
-        case x: ThisType => bestEffort(x, "ThisType")
-        case x: RecursiveThis => bestEffort(x, "RecursiveThis")
-        case x: RecursiveType => bestEffort(x, "RecursiveType")
-        case x: MethodType => bestEffort(x, "MethodType")
-        case x: PolyType => bestEffort(x, "PolyType")
-        case x: TypeLambda => bestEffort(x, "TypeLambda")
-        case x: MatchCase => bestEffort(x, "MatchCase")
-        case x: NoPrefix => bestEffort(x, "NoPrefix")
+        /*
+         * Unsupported (at least for now)
+         */
 
-        // And in case we missed something above
-        case x: TypeRepr => bestEffort(x, "TypeRepr (fell through)")
+        // These are not fully-applied types, so not legal as a type parameter
+        case _: LambdaType => notSupported("Type lambdas and their ilk")
+        case _: ParamRef => notSupported("Type parameter references")
+        case _: MatchCase | _: MatchType => notSupported("Match cases as types")
+
+        // Unclear how these would ever get passed in as type parameters
+        case _: SuperType => notSupported("Super type references")
+        case _: RecursiveType | _: RecursiveThis => notSupported("Recursive types")
+
+        // Shouldn't appear at the top level unless something has gone wrong
+        case _: NoPrefix | _: ThisType => notSupported("Root no prefix and this types")
+
+        // Doesn't make sense to use DI for a constant type
+        // For example (from tests), typeLiteral[1]
+        // Guice arrives at "java.lang.Object" as the type (too broad to be useful)
+        case _: ConstantType => notSupported("Constant types")
+
+        // Legal as a type parameter, but unclear how to support it
+        // For example (from tests), typeLiteral[Int { type U }]
+        // Guice arrives at "java.lang.Object" as the type (too broad to be useful)
+        case _: Refinement => notSupported("Refinement types")
+
+        // Unclear how this could be used
+        // For example (from tests), typeLiteral[B | C]
+        // Guice arrives at "java.lang.Object" as the type (too broad to be useful)
+        case _: OrType => notSupported("Or types")
       }
 
     // Recursively evaluate and collect Scala type representations as higher-level Java type expressions
@@ -176,38 +187,34 @@ private[scalaguice] object TypeConversions {
         case (ref: TypeRef, Some(excludedType)) if ref =:= excludedType =>
           Seq.empty
 
-        case (ref: TypeRef, _) =>
-          Seq(javaTypeExpr(ref))
-
         case (AndType(firstType, secondType), _) =>
           collectBoundExprs(firstType, exclude) ++ collectBoundExprs(secondType, exclude)
 
         case (other: TypeRepr, _) =>
-          Seq(bestEffort(other, "bound"))
+          Seq(javaTypeExpr(other))
       }
 
-    // Anything we don't handle directly above is translated to a Java type using this default means
-    // (where logging might be nice to have while debugging)
-    def bestEffort(x: TypeRepr, tag: String = ""): Expr[JavaType] = {
-      report.warning(s"Encountered unexpected $tag type during macro expansion of ${x} -- using default translation")
-      toJavaType(x)
+    // Anything we don't handle directly above returns a compiler error
+    def notSupported(theseTypes: String): Expr[JavaType] = {
+      report.errorAndAbort(s"$theseTypes are not supported")
     }
 
     def findOwnerOf(ref: TypeRepr): Option[Expr[JavaType]] = {
       val owner = ref.typeSymbol.maybeOwner
       val hasOwnerClass = owner.isClassDef && !owner.isNoSymbol && !owner.isPackageDef
       if (hasOwnerClass) {
-        if (owner.moduleClass.isNoSymbol) {
-          // Example from tests: net.codingwell.scalaguice.ScalaMapBinderSpec (class) is owner of W (class)
-          Some(toJavaType(owner.typeRef))
-        } else {
+        if (owner.flags.is(Flags.Module)) {
+          // Owner is a module (object)
           // Example from tests: net.codingwell.scalaguice.Outer (object) is owner of Gen (trait)
-          // Would prefer to use the above toJavaType(owner.typeRef) call always, without stringification, but...
+          // Would prefer to use toJavaType(owner.typeRef) call always (without stringification), but...
           // here we need to resolve class without the $ suffix for some reason
-          // Unknown if there is a better way than using "owner.moduleClass.isNoSymbol" and ".typeRef.show" to decide
-          // and to get the full class name for these (seems like there ought to be, but fullName includes the $ too)
+          // Unknown if there is a better way than using ".typeRef.show" to get the full class name for these
           val clazz: Expr[String] = Expr(owner.typeRef.show)
           Some('{ Class.forName($clazz) })
+        } else {
+          // Owner is not a module (class, trait)
+          // Example from tests: net.codingwell.scalaguice.ScalaMapBinderSpec (class) is owner of W (class)
+          Some(toJavaType(owner.typeRef))
         }
       } else None
     }

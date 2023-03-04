@@ -7,9 +7,6 @@ import scala.annotation.nowarn
 import scala.compiletime.erasedValue
 import scala.quoted._
 
-/**
- * Copyright (C) 22/04/2018 - REstore NV
- */
 private[scalaguice] object TypeConversions {
   inline def scalaTypeToJavaType[T]: JavaType = ${ // top-level splice == macro
     scalaTypeToJavaTypeImpl[T]

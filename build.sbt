@@ -32,7 +32,7 @@ autoAPIMappings := true
 val scala3 = "3.2.2"
 
 scalaVersion := scala3
-crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.8", scala3)
+crossScalaVersions := Seq("2.11.12", "2.12.17", "2.13.10", scala3)
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
 

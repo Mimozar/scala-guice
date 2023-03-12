@@ -106,9 +106,7 @@ trait ScalaModule extends InternalModule[Binder] { self: AbstractModule =>
 
   protected[this] def binderAccess: Binder = {
     val method: Method = classOf[AbstractModule].getDeclaredMethod("binder")
-    if (!method.canAccess(this)) {
-      method.setAccessible(true)
-    }
+    method.setAccessible(true)
     method.invoke(this).asInstanceOf[Binder]
       .withSource(filterTrace((new Throwable).getStackTrace))
   }
@@ -120,9 +118,7 @@ trait ScalaPrivateModule extends InternalModule[PrivateBinder] { self: PrivateMo
 
   protected[this] def binderAccess: PrivateBinder = {
     val method: Method = classOf[PrivateModule].getDeclaredMethod("binder")
-    if (!method.canAccess(this)) {
-      method.setAccessible(true)
-    }
+    method.setAccessible(true)
     method.invoke(this).asInstanceOf[PrivateBinder]
       .withSource(filterTrace((new Throwable).getStackTrace))
   }

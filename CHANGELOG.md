@@ -1,3 +1,11 @@
+5.1.1
+-----
+2023-03-12
+
+* Add native Scala 3.2.2 build (Thanks russellremple)
+* Update to Scala 2.13.10
+* Update to Scala 2.12.17
+
 5.1.0
 -----
 2022-05-26

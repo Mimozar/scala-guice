@@ -126,6 +126,9 @@ class TypeLiteralSpec extends AnyFunSpec with Matchers {
       // Scala 2 represents it as Function1[Function0[Unit],String]
       // Scala 3 represents it as just Function1[Unit,String]
       typeLiteral[(=> Unit) => String] shouldEqual new TypeLiteral[(=> Unit) => String] {}
+      // In Scala 3 the parenthesis are not optional, otherwise it isn't a function
+      typeLiteral[(() => Unit) => String] shouldEqual new TypeLiteral[(() => Unit) => String] {}
+      typeLiteral[Function1[Function0[Unit],String]] shouldEqual new TypeLiteral[(() => Unit) => String] {}
     }
 
     it("should handle complex type") {

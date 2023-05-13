@@ -369,7 +369,7 @@ class ScalaMapBinderSpec extends AnyWordSpec with Matchers {
 
     validate(injector.instance[im.Map[K, V]], expected: _*)
     validate(injector.instance[im.Map[K, Provider[V]]].transform { case (_, provider) => provider.get() }, expected: _*)
-    validate(injector.instance[im.Map[K, javax.inject.Provider[V]]].transform { case (_, provider) => provider.get() }, expected: _*)
+    validate(injector.instance[im.Map[K, jakarta.inject.Provider[V]]].transform { case (_, provider) => provider.get() }, expected: _*)
   }
 
   private def validateWithAnnotation[K: TypeTag, V: TypeTag](module: Module, annotation: Annotation, expected: (K, V)*): Unit = {
@@ -377,7 +377,7 @@ class ScalaMapBinderSpec extends AnyWordSpec with Matchers {
 
     validate(injector.instance[im.Map[K, V]](annotation), expected: _*)
     validate(injector.instance[im.Map[K, Provider[V]]](annotation).transform { case (_, provider) => provider.get() }, expected: _*)
-    validate(injector.instance[im.Map[K, javax.inject.Provider[V]]](annotation).transform { case (_, provider) => provider.get() }, expected: _*)
+    validate(injector.instance[im.Map[K, jakarta.inject.Provider[V]]](annotation).transform { case (_, provider) => provider.get() }, expected: _*)
   }
 
   private def validateWithAnn[K: TypeTag, V: TypeTag, Ann <: Annotation : ClassTag](module: Module, expected: (K, V)*): Unit = {
@@ -385,7 +385,7 @@ class ScalaMapBinderSpec extends AnyWordSpec with Matchers {
 
     validate(injector.instance[im.Map[K, V], Ann], expected: _*)
     validate(injector.instance[im.Map[K, Provider[V]], Ann].transform { case (_, provider) => provider.get() }, expected: _*)
-    validate(injector.instance[im.Map[K, javax.inject.Provider[V]], Ann].transform { case (_, provider) => provider.get() }, expected: _*)
+    validate(injector.instance[im.Map[K, jakarta.inject.Provider[V]], Ann].transform { case (_, provider) => provider.get() }, expected: _*)
   }
 
   private def validateMultiMap[K: TypeTag, V: TypeTag](module: Module, expected: (K, im.Set[V])*): Unit = {

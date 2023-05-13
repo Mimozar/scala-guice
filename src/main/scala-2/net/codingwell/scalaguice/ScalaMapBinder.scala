@@ -201,7 +201,7 @@ object ScalaMapBinder {
     def configure(binder: Binder): Unit = {
       bindMapping(binder, vTyp)
       bindMapping(binder, wrap[Provider].around(vTyp))
-      bindMapping(binder, wrap[javax.inject.Provider].around(vTyp))
+      bindMapping(binder, wrap[jakarta.inject.Provider].around(vTyp))
     }
 
     private[this] def bindMapping[T](binder: Binder, typ: TypeLiteral[T]): Unit = {

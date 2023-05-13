@@ -96,7 +96,7 @@ class ScalaModuleSpec extends AnyWordSpec with Matchers {
       Guice.createInjector(module).getInstance(Key.get(classOf[A],classOf[Named]))
     }
 
-    "allow use provider form javax.inject.Provider" in {
+    "allow use provider form jakarta.inject.Provider" in {
       val module = new AbstractModule with ScalaModule {
         override def configure(): Unit = {
           bind[Foo].toProvider[FooProviderWithJavax]

@@ -28,7 +28,7 @@ import com.google.inject.{
 }
 import java.lang.annotation.Annotation
 import java.lang.reflect.{AnnotatedElement, Method}
-import javax.inject.Provider
+import jakarta.inject.Provider
 import org.aopalliance.intercept.MethodInterceptor
 import scala.reflect.ClassTag
 

@@ -16,7 +16,7 @@
 package net.codingwell.scalaguice
 
 import com.google.inject.TypeLiteral
-import javax.inject.{Provider, Inject, Named}
+import jakarta.inject.{Provider, Inject, Named}
 import org.aopalliance.intercept.MethodInterceptor
 import org.aopalliance.intercept.MethodInvocation
 
@@ -63,7 +63,7 @@ trait Foo {
   def foo(): String
 }
 
-class FooProviderWithJavax extends javax.inject.Provider[Foo] {
+class FooProviderWithJavax extends jakarta.inject.Provider[Foo] {
   def get(): Foo = new Foo {
     def foo() = "foo"
   }
@@ -90,7 +90,7 @@ final case object FinalSealedTrait extends SealedTrait
 
 case class SealedTraitContainer[T <: SealedTrait](inner: T)
 
-class SealedTraitContainerFinalSealedTraitProvider extends javax.inject.Provider[SealedTraitContainer[FinalSealedTrait.type]] {
+class SealedTraitContainerFinalSealedTraitProvider extends jakarta.inject.Provider[SealedTraitContainer[FinalSealedTrait.type]] {
   def get(): SealedTraitContainer[FinalSealedTrait.type] = SealedTraitContainer(FinalSealedTrait)
 }
 

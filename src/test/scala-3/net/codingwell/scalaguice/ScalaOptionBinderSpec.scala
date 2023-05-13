@@ -342,12 +342,12 @@ class ScalaOptionBinderSpec extends AnyWordSpec with Matchers {
     // Check Option
     injector.instance[Option[T]] should contain(expected)
     injector.instance[Option[Provider[T]]].get.get() should equal(expected)
-    injector.instance[Option[javax.inject.Provider[T]]].get.get() should equal(expected)
+    injector.instance[Option[jakarta.inject.Provider[T]]].get.get() should equal(expected)
 
     // Check Optional
     injector.instance[Optional[T]].get should equal(expected)
     injector.instance[Optional[Provider[T]]].get.get() should equal(expected)
-    injector.instance[Optional[javax.inject.Provider[T]]].get.get() should equal(expected)
+    injector.instance[Optional[jakarta.inject.Provider[T]]].get.get() should equal(expected)
   }
 
   private inline def validateWithAnn[T, Ann <: Annotation : ClassTag](module: Module, expected: T = "A"): Unit = {
@@ -356,12 +356,12 @@ class ScalaOptionBinderSpec extends AnyWordSpec with Matchers {
     // Check Option
     injector.instance[Option[T], Ann] should contain(expected)
     injector.instance[Option[Provider[T]], Ann].get.get() should equal(expected)
-    injector.instance[Option[javax.inject.Provider[T]], Ann].get.get() should equal(expected)
+    injector.instance[Option[jakarta.inject.Provider[T]], Ann].get.get() should equal(expected)
 
     // Check Optional
     injector.instance[Optional[T], Ann].get should equal(expected)
     injector.instance[Optional[Provider[T]], Ann].get.get() should equal(expected)
-    injector.instance[Optional[javax.inject.Provider[T]], Ann].get.get() should equal(expected)
+    injector.instance[Optional[jakarta.inject.Provider[T]], Ann].get.get() should equal(expected)
   }
 
   private inline def validateWithAnnotation[T](module: Module, annotation: Annotation, expected: T): Unit = {
@@ -370,12 +370,12 @@ class ScalaOptionBinderSpec extends AnyWordSpec with Matchers {
     // Check Option
     injector.instance[Option[T]](annotation) should contain(expected)
     injector.instance[Option[Provider[T]]](annotation).get.get() should equal(expected)
-    injector.instance[Option[javax.inject.Provider[T]]](annotation).get.get() should equal(expected)
+    injector.instance[Option[jakarta.inject.Provider[T]]](annotation).get.get() should equal(expected)
 
     // Check Optional
     injector.instance[Optional[T]](annotation).get should equal(expected)
     injector.instance[Optional[Provider[T]]](annotation).get.get() should equal(expected)
-    injector.instance[Optional[javax.inject.Provider[T]]](annotation).get.get() should equal(expected)
+    injector.instance[Optional[jakarta.inject.Provider[T]]](annotation).get.get() should equal(expected)
   }
 
   private inline def validateAbsent[T](module: Module, expected: T = "A"): Unit = {
@@ -384,11 +384,11 @@ class ScalaOptionBinderSpec extends AnyWordSpec with Matchers {
     // Check Option
     injector.instance[Option[T]] should be (None)
     injector.instance[Option[Provider[T]]] should be (None)
-    injector.instance[Option[javax.inject.Provider[T]]] should be (None)
+    injector.instance[Option[jakarta.inject.Provider[T]]] should be (None)
 
     // Check Optional
     injector.instance[Optional[T]].isPresent should be (false)
     injector.instance[Optional[Provider[T]]].isPresent should be (false)
-    injector.instance[Optional[javax.inject.Provider[T]]].isPresent should be (false)
+    injector.instance[Optional[jakarta.inject.Provider[T]]].isPresent should be (false)
   }
 }

@@ -58,10 +58,10 @@ trait LinkedBindingBuilderProxy[T] extends LinkedBindingBuilder[T] with ScopedBi
   override def toConstructor[S <: T](constructor:JConstructor[S]) = newBuilder(self.toConstructor(constructor))
   override def toConstructor[S <: T](constructor:JConstructor[S], literal:TypeLiteral[_ <: S]) = newBuilder(self.toConstructor(constructor,literal))
   override def toProvider(provider: Provider[_ <: T]) = newBuilder(self.toProvider(provider))
-  override def toProvider(provider: javax.inject.Provider[_ <: T]) = newBuilder(self.toProvider(provider))
-  def toProvider(provider: Class[_ <: javax.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(provider))
-  def toProvider(provider: TypeLiteral[_ <: javax.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(provider))
-  def toProvider(providerKey: Key[_ <: javax.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(providerKey))
+  override def toProvider(provider: jakarta.inject.Provider[_ <: T]) = newBuilder(self.toProvider(provider))
+  def toProvider(provider: Class[_ <: jakarta.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(provider))
+  def toProvider(provider: TypeLiteral[_ <: jakarta.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(provider))
+  def toProvider(providerKey: Key[_ <: jakarta.inject.Provider[_ <: T]]) = newBuilder(self.toProvider(providerKey))
 
   private[this] def newBuilder(underlying: ScopedBindingBuilder) = new ScalaScopedBindingBuilder {
     val self = underlying

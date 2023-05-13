@@ -157,7 +157,7 @@ object ScalaOptionBinder {
     def configure(binder: Binder): Unit = {
       bindMapping(binder, key.getTypeLiteral)
       bindMapping(binder, wrap[Provider].around(key.getTypeLiteral))
-      bindMapping(binder, wrap[javax.inject.Provider].around(key.getTypeLiteral))
+      bindMapping(binder, wrap[jakarta.inject.Provider].around(key.getTypeLiteral))
     }
 
     private[this] def bindMapping[S](binder: Binder, typ: TypeLiteral[S]): Unit = {

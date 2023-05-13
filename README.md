@@ -14,18 +14,18 @@ We currently support Scala `2.11`, `2.12`, `2.13`, and `3`
 <dependency>
     <groupId>net.codingwell</groupId>
     <artifactId>scala-guice_2.13</artifactId>
-    <version>5.1.1</version>
+    <version>7.0.0</version>
 </dependency>
 ```
 
 ##### sbt:
 ```scala
-"net.codingwell" %% "scala-guice" % "5.1.1"
+"net.codingwell" %% "scala-guice" % "7.0.0"
 ```
 
 ##### gradle:
 ```groovy
-'net.codingwell:scala-guice_2.13:5.1.1'
+'net.codingwell:scala-guice_2.13:7.0.0'
 ```
 
 ### Mixin
@@ -210,14 +210,14 @@ class MyModule extends AbstractModule with ScalaModule {
 }
 ```
 
-And then they may be retrieved as `Option[T]`, `Option[Provider[T]]`, and `Option[javax.inject.Provider[T]]`. (examples in order)
+And then they may be retrieved as `Option[T]`, `Option[Provider[T]]`, and `Option[jakarta.inject.Provider[T]]`. (examples in order)
 
 ```scala
 class StringThing @Inject() (name: Option[String]) { ... }
 
 class AThing @Inject() (@Annotation aProvider: Option[Provider[T]]) { ... }
 
-class Service @Inject() (@Names.named("backend") configProvider: Option[javax.inject.Provider[ServiceConfiguration]]) { ... }
+class Service @Inject() (@Names.named("backend") configProvider: Option[jakarta.inject.Provider[ServiceConfiguration]]) { ... }
 ```
 
 ### MapBinding
@@ -236,7 +236,7 @@ class MyModule extends AbstractModule with ScalaModule {
 And then may be retrieved as any of the following:
 - `immutable.Map[K, V]`
 - `immutable.Map[K, Provider[V]]`
-- `immutable.Map[K, javax.inject.Provider[V]]`
+- `immutable.Map[K, jakarta.inject.Provider[V]]`
 
 If you call `mapBinder.permitDuplicates()` on the binder then you may also inject:
 - `immutable.Map[K, immutable.Set[V]]`

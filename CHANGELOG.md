@@ -1,3 +1,10 @@
+7.0.0
+-----
+2023-05-13
+
+* Update to Guice 7.0.0
+  - Note: Drops support for javax.*
+
 6.0.0
 -----
 2023-05-13

@@ -1,7 +1,7 @@
 Scala extensions for Google Guice 7.0.0
 =======================================
 
-**Develop:** [![Build Status](https://travis-ci.org/codingwell/scala-guice.png?branch=develop)](https://travis-ci.org/codingwell/scala-guice)
+**Develop:** [![Build Status](https://api.travis-ci.com/codingwell/scala-guice.svg?branch=develop)](https://app.travis-ci.com/github/codingwell/scala-guice)
 
 Getting Started
 ---------------

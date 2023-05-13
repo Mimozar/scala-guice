@@ -4,7 +4,7 @@ description := "Scala syntax for Guice"
 
 organization := "net.codingwell"
 
-version := "5.1.1"
+version := "6.0.0"
 versionScheme := Some("pvp")
 
 licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -12,7 +12,7 @@ licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.
 homepage := Some(url("https://github.com/codingwell/scala-guice"))
 
 libraryDependencies ++= Seq(
-  "com.google.inject" % "guice" % "5.1.0",
+  "com.google.inject" % "guice" % "6.0.0",
   "org.scalatest" %% "scalatest" % "3.2.9" % "test",
   "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile"
 )
